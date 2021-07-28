@@ -1,0 +1,34 @@
+### new card
+POST http://localhost:4000/api/users/newuser
+Content-Type: application/json
+
+{
+"name": "tv2",
+"age": 2,
+"email": "eafesfesf",
+"password": "secret"
+}
+
+### update card
+PUT http://localhost:4000/api/users/edit/6100fe7257258a10e26f8872
+Content-Type: application/json
+
+{
+"name": "edited",
+"age": 100,
+"email": "edited2",
+"password": "edited3"
+}
+
+
+### get all cards
+GET http://localhost:4000/api/users/allusers
+
+### get one card
+GET http://localhost:4000/api/users/getuser/6100fe7257258a10e26f8872
+
+### filter
+GET http://localhost:4000/api/servicegoods/filter/service
+
+### delete a card
+DELETE  http://localhost:4000/api/users/delete/6100fd33c892410e9f8c6b29

@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors');
 const connectDB = require('./config/db');
-// imetam routa const cardRoutes = require('./routes/cardRoutes') 
+const userRoutes = require('./routes/userRoutes') 
 
 dotenv.config()
 
@@ -19,8 +19,8 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
- 
-// app.use('/card', cardRoutes)
+ // Routes
+app.use('/api/users', userRoutes)
 
 const PORT = process.env.PORT || 4000
 
