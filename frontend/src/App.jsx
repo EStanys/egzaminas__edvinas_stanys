@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
-
 import './App.css';
 import MainHeader from './components/MainHeader';
 import Home from './pages/Home';
 import NewUser from './pages/NewUser';
-import { createNewUser } from './utils/requests';
+import { createNewUser, deleteUser, fetchAllUsers } from './utils/requests';
+import AllUsers from './pages/AllUsers';
 
 
 
@@ -13,6 +13,11 @@ function App() {
 
   const [createSuccess, setCreateSuccess] = useState(false);
   const [createFailledErrors, setCreateFailledErrors] = useState({});
+  const [allUsers, setAllUsers] = useState([])
+
+  useEffect(() => {
+    getAllUsers()
+  }, [])
 
 const setCreateSuccessAlert = () => {
     setTimeout(function () {
@@ -21,23 +26,31 @@ const setCreateSuccessAlert = () => {
     
   }
 
+  const getAllUsers = async () => {
+    const resp = await fetchAllUsers()
+    const { allUsers } = resp.data;
+    setAllUsers(allUsers);
+  }
+
   const createFormHandler = async (newUser) => {
     const res = await createNewUser(newUser)
+
+    if (res.msg === 'createFail') {
+      setCreateFailledErrors(res.errors);
+    }
 
     if (res.msg === 'createSuccess') {
       setCreateSuccess(true);
       setCreateSuccessAlert();
       setCreateFailledErrors({})
     } 
-
-    if (res.msg === 'createFail') {
-      setCreateFailledErrors(res.errors);
-    }
-    // await getAllServicesGoods();
+    await getAllUsers();
   }
 
-
-
+  const deleteUserHandler = async (id) => {
+    await deleteUser(id)
+    await getAllUsers()
+  }
 
   return (
     <div className="App">
@@ -45,27 +58,25 @@ const setCreateSuccessAlert = () => {
       <div className='container'>
         <Switch>
           {/* <Route
-            path='/editservisesgoods/:id'
-            render={(props) => <EditServiceGoods {...props} onEditFormHandler={editFormHandler} />}
+            path='/edituser/:id'
+            render={(props) => <EditUser {...props} onEditFormHandler={editFormHandler} />}
           /> */}
-          {/* <Route
-            path='/allservisesgoods'
+          <Route
+            path='/allusers'
             render={(props) => (
-              <ServicesAndGoods
+              <AllUsers
                 {...props}
-                allServicesGoods={allServicesGoods}
-                onDeleteHandler={deleteHandler}
-                onFilter={filterServicesGoods}
-                onGetAllServicesGoods={getAllServicesGoods}
+                allUsers={allUsers}
+                onUserDeleteHandler={deleteUserHandler}
               />
             )}
-          /> */}
+          />
           <Route
             path='/newuser'
             render={(props) => (
               <NewUser
                 {...props}
-                onAddFormHandler={createFormHandler}
+                onCreateFormHandler={createFormHandler}
                 createSuccess={createSuccess}
                 createFailledErrors={createFailledErrors}
               />

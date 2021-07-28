@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErrors }) => {
+const EditUser = ({ onCreateFormHandler, history, createSuccess, createFailledErrors }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
@@ -116,5 +116,5 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
   );
 };
 
-export default NewUser;
+export default EditUser;
 
