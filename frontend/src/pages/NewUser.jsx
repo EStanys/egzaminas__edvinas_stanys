@@ -1,18 +1,19 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErrors }) => {
+const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErrors, onSetCreateFailledErrors }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
+    onSetCreateFailledErrors({})
     setName('');
     setAge('');
     setEmail('');
     setPassword('');
-  }, [createSuccess]);
+  }, [createSuccess, onSetCreateFailledErrors]);
 
   const formSubmitHandler = async (e) => {
     
@@ -21,11 +22,9 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
       name,
       age,
       email,
-      password,
-      
+      password, 
     };
     await onCreateFormHandler(newUser); 
-
   };
   
   const backHandler = () => {
@@ -37,15 +36,15 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
     <>
       {createSuccess && (
         <div className={'alert alert-success w-75 mx-auto successMsg'} role='alert'>
-          Successfully created
+          Vartotojas sėkmingai sukurtas
         </div>
       )}
-      <h1 className='text-center my-5'>Create New User</h1>
+      <h1 className='text-center my-5'>Sukurti naują vartotoją</h1>
       <div className='row'>
         <form className='col-11 col-sm-12 col-md-10 col-xl-8 mx-auto' onSubmit={formSubmitHandler} autoComplete='off'>
           <div className='mb-3'>
             <label htmlFor='name' className='form-label mt-3'>
-              Name
+              Vardas
             </label>
             <input
               value={name}
@@ -55,12 +54,12 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
               aria-describedby='name'
               onChange={(e) => setName(e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter a name.</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo vardą.</div>
           </div>
 
           <div className='mb-3'>
             <label htmlFor='age' className='form-label'>
-              Age
+              Amžius
             </label>
             <input
               value={age}
@@ -70,12 +69,12 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
               aria-describedby='age'
               onChange={(e) => setAge(+e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter an age of new user (in numbers).</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo amžių (skaičiais).</div>
           </div>
 
           <div className='mb-3'>
             <label htmlFor='email' className='form-label'>
-              Email
+              E-paštas
             </label>
             <input
               value={email}
@@ -85,12 +84,12 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
               min='1'
               onChange={(e) => setEmail(e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter an email.</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo e-paštą.</div>
           </div>
 
           <div className='mb-3'>
             <label htmlFor='password' className='form-label'>
-              Password 
+              Slaptažodis 
             </label>
             <input
               value={password}
@@ -100,15 +99,15 @@ const NewUser = ({ onCreateFormHandler, history, createSuccess, createFailledErr
               min='0'
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter an password.</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo slaptažodį.</div>
           </div>
           
 
           <button type='submit' className='btn btn-success me-2'>
-            Create
+            Sukurti
           </button>
           <button type='button' className='btn btn-warning' onClick={backHandler}>
-            Back
+            Atgal
           </button>
         </form>
       </div>

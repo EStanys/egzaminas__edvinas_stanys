@@ -1,14 +1,13 @@
 import React from 'react'
-// import ServicesGoodsCard from '../components/ServicesGoodsCard';
 import OneUser from '../components/OneUser';
 
 const AllUsers = ({allUsers, onUserDeleteHandler}) => {
   return (
     <div>
-      <h1 className='text-center my-5'>All Users</h1>
+      <h1 className='text-center my-5'>Visi vartotojai</h1>
       {allUsers.length === 0 && (
         <div className='alert alert-danger' role='alert'>
-          Sorry, but currently there is no users added
+          Atsiprašome, tačiau šiuo metu nėra pridėtų vartotojų.
         </div>
       )}
       <div className='row'>

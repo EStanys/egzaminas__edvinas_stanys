@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { getOneUser } from '../utils/requests';
 
-const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) => {
+const EditUser = ({ onEditUserHandler, history, match, createFailledErrors, onSetCreateFailledErrors }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
@@ -11,6 +11,8 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
   const editedUserId = match.params.id
 
   useEffect(() => {
+    onSetCreateFailledErrors({})
+
     const getUserData = async () => {
       const userData = await getOneUser(editedUserId)
 
@@ -22,7 +24,7 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
       setPassword(password);
     }
     getUserData()
-  }, [editedUserId]);
+  }, [editedUserId,onSetCreateFailledErrors]);
 
   
 
@@ -34,27 +36,23 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
       age,
       email,
       password,
-      
     };
-    await onEditUserHandler(newUser, editedUserId); 
 
+    await onEditUserHandler(newUser, editedUserId); 
   };
 
   const backHandler = () => {
     history.push('/allusers')
   }
-  
-
 
   return (
     <>
-      
-      <h1 className='text-center my-5'>Edit User</h1>
+      <h1 className='text-center my-5'>Redaguoti vartotoją</h1>
       <div className='row'>
         <form className='col-11 col-sm-12 col-md-10 col-xl-8 mx-auto' onSubmit={formSubmitHandler} autoComplete='off'>
           <div className='mb-3'>
             <label htmlFor='name' className='form-label mt-3'>
-              Name
+              Vardas
             </label>
             <input
               value={name}
@@ -64,12 +62,12 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
               aria-describedby='name'
               onChange={(e) => setName(e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter a name.</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo vardą.</div>
           </div>
 
           <div className='mb-3'>
             <label htmlFor='age' className='form-label'>
-              Age
+              Amžius
             </label>
             <input
               value={age}
@@ -79,12 +77,12 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
               aria-describedby='age'
               onChange={(e) => setAge(+e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter an age of new user (in numbers).</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo amžių (skaičiais).</div>
           </div>
 
           <div className='mb-3'>
             <label htmlFor='email' className='form-label'>
-              Email
+              E-paštas
             </label>
             <input
               value={email}
@@ -94,12 +92,12 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
               min='1'
               onChange={(e) => setEmail(e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter an email.</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo e-paštą.</div>
           </div>
 
           <div className='mb-3'>
             <label htmlFor='password' className='form-label'>
-              Password 
+              Slaptažodis 
             </label>
             <input
               value={password}
@@ -109,15 +107,15 @@ const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) =>
               min='0'
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className='invalid-feedback'>Please enter an password.</div>
+            <div className='invalid-feedback'>Prašome įvesti vartotojo slaptažodį.</div>
           </div>
           
 
           <button type='submit' className='btn btn-success me-2'>
-            Save
+            Išsaugoti
           </button>
           <button type='button' className='btn btn-warning' onClick={backHandler}>
-            Back
+            Atgal
           </button>
         </form>
       </div>

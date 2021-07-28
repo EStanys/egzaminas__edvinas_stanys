@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Switch, Route, useHistory, Redirect } from 'react-router-dom'
-import './App.css';
+import { createNewUser, deleteUser, editUser, fetchAllUsers } from './utils/requests';
 import MainHeader from './components/MainHeader';
 import Home from './pages/Home';
 import NewUser from './pages/NewUser';
-import { createNewUser, deleteUser, editUser, fetchAllUsers } from './utils/requests';
 import AllUsers from './pages/AllUsers';
 import EditUser from './pages/EditUser';
-
-
+import './App.css';
 
 function App() {
 
@@ -69,9 +67,6 @@ const setCreateSuccessAlert = () => {
       await getAllUsers();
       await history.push('/allusers')
     } 
-
-    
-
   }
 
   return (
@@ -85,7 +80,8 @@ const setCreateSuccessAlert = () => {
             <EditUser 
               {...props} 
               onEditUserHandler={editUserHandler} 
-              createFailledErrors={createFailledErrors} />}
+              createFailledErrors={createFailledErrors}
+              onSetCreateFailledErrors={setCreateFailledErrors} />}
           />
           <Route
             path='/allusers'
@@ -105,6 +101,7 @@ const setCreateSuccessAlert = () => {
                 onCreateFormHandler={createFormHandler}
                 createSuccess={createSuccess}
                 createFailledErrors={createFailledErrors}
+                onSetCreateFailledErrors={setCreateFailledErrors}
               />
             )}
           />

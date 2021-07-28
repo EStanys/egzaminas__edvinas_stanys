@@ -13,18 +13,18 @@ const OneUser = ({user:{name, age, email, password, _id}, onUserDeleteHandler}) 
 
   <li className="list-group-item d-flex justify-content-between">
     <div>
-      <div className='d-block'><strong >Name:</strong> {name}</div>
-      <div className='d-block'><strong>Age:</strong> {age}</div>
-       <div className='d-block'><strong>Email:</strong> {email} </div>
-      <div className='d-block'><strong>Password:</strong> {password}</div>
+      <div className='d-block'><strong >Vardas:</strong> {name}</div>
+      <div className='d-block'><strong>Amžius:</strong> {age}</div>
+       <div className='d-block'><strong>E-paštas:</strong> {email} </div>
+      <div className='d-block'><strong>Slaptažodis:</strong> {password}</div>
     </div>
-    <div>
-       <Button callback={() => { editHandler(_id) }} color={'btn-warning'}>
-        Edit
+    <div className="d-flex justify-content-center flex-column">
+       <Button callback={() => { editHandler(_id) }} color={'btn-warning d-block'}>
+        Redaguoti
       </Button>
 
-      <Button callback={() => { onUserDeleteHandler(_id) }} color={'btn-danger'}>
-        Delete
+      <Button callback={() => { onUserDeleteHandler(_id) }} color={'btn-danger d-block'}>
+        Ištrinti
       </Button>
     </div>
  </li>
