@@ -11,8 +11,8 @@ const AllUsers = ({allUsers, onUserDeleteHandler}) => {
           Sorry, but currently there is no users added
         </div>
       )}
-      <div className='d-flex flex-wrap justify-content-center justify-content-xl-start'>
-        <ul className="list-group">
+      <div className='row'>
+        <ul className="list-group col-11 col-sm-12 col-md-10 col-xl-8 mx-auto">
           {allUsers.map((user) => (
           <OneUser onUserDeleteHandler={onUserDeleteHandler} user={user} key={user._id} />
         ))}
