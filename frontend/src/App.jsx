@@ -4,8 +4,9 @@ import './App.css';
 import MainHeader from './components/MainHeader';
 import Home from './pages/Home';
 import NewUser from './pages/NewUser';
-import { createNewUser, deleteUser, fetchAllUsers } from './utils/requests';
+import { createNewUser, deleteUser, editUser, fetchAllUsers } from './utils/requests';
 import AllUsers from './pages/AllUsers';
+import EditUser from './pages/EditUser';
 
 
 
@@ -15,6 +16,8 @@ function App() {
   const [createFailledErrors, setCreateFailledErrors] = useState({});
   const [allUsers, setAllUsers] = useState([])
 
+  const history = useHistory()
+  
   useEffect(() => {
     getAllUsers()
   }, [])
@@ -52,15 +55,38 @@ const setCreateSuccessAlert = () => {
     await getAllUsers()
   }
 
+  const editUserHandler = async (newCardData, id) => {
+    const res = await editUser(newCardData, id)
+
+    if (res.msg === 'updateFail') {
+      setCreateFailledErrors(res.errors);
+    }
+
+    if (res.msg === 'updateSuccess') {
+      setCreateSuccess(true);
+      setCreateSuccessAlert();
+      setCreateFailledErrors({})
+      await getAllUsers();
+      await history.push('/allusers')
+    } 
+
+    
+
+  }
+
   return (
     <div className="App">
       <MainHeader/>
       <div className='container'>
         <Switch>
-          {/* <Route
+          <Route
             path='/edituser/:id'
-            render={(props) => <EditUser {...props} onEditFormHandler={editFormHandler} />}
-          /> */}
+            render={(props) => 
+            <EditUser 
+              {...props} 
+              onEditUserHandler={editUserHandler} 
+              createFailledErrors={createFailledErrors} />}
+          />
           <Route
             path='/allusers'
             render={(props) => (

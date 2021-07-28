@@ -38,8 +38,40 @@ const deleteUser = async (id) => {
   } 
 }
 
+const getOneUser = async (id) => {
+  try {
+    const oneUser = await axios.get(`${URL}/getuser/${id}`);
+    return oneUser;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+const editUser = async (userNewData, id) => {
+  try {
+    const editedUser = await axios.put(`${URL}/edit/${id}`, userNewData);
+
+    console.log('cia', editedUser.data);
+
+    if(editedUser.data.message === 'Update Success'){
+      return { msg: 'updateSuccess', data: editedUser };
+    }
+
+    if (editedUser.data.errors) {
+      return { msg: 'updateFail', errors:editedUser.data.errors}
+    }
+
+
+    // return { msg: 'success', data: editedUser };
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 export {
   createNewUser,
   fetchAllUsers,
-  deleteUser
+  deleteUser,
+  getOneUser,
+  editUser
 }

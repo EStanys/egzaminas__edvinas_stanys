@@ -1,18 +1,30 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import { getOneUser } from '../utils/requests';
 
-const EditUser = ({ onCreateFormHandler, history, createSuccess, createFailledErrors }) => {
+const EditUser = ({ onEditUserHandler, history, match, createFailledErrors }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const editedUserId = match.params.id
+
   useEffect(() => {
-    setName('');
-    setAge('');
-    setEmail('');
-    setPassword('');
-  }, [createSuccess]);
+    const getUserData = async () => {
+      const userData = await getOneUser(editedUserId)
+
+      const {data:{ oneUser: { name, age, email, password }}} = userData
+
+      setName(name);
+      setAge(age);
+      setEmail(email);
+      setPassword(password);
+    }
+    getUserData()
+  }, [editedUserId]);
+
+  
 
   const formSubmitHandler = async (e) => {
     
@@ -24,23 +36,20 @@ const EditUser = ({ onCreateFormHandler, history, createSuccess, createFailledEr
       password,
       
     };
-    await onCreateFormHandler(newUser); 
+    await onEditUserHandler(newUser, editedUserId); 
 
   };
-  
+
   const backHandler = () => {
-    history.push('/allusers');
-  };
+    history.push('/allusers')
+  }
+  
 
 
   return (
     <>
-      {createSuccess && (
-        <div className={'alert alert-success w-75 mx-auto successMsg'} role='alert'>
-          Successfully created
-        </div>
-      )}
-      <h1 className='text-center my-5'>Create New User</h1>
+      
+      <h1 className='text-center my-5'>Edit User</h1>
       <div className='row'>
         <form className='col-11 col-sm-12 col-md-10 col-xl-8 mx-auto' onSubmit={formSubmitHandler} autoComplete='off'>
           <div className='mb-3'>
@@ -105,7 +114,7 @@ const EditUser = ({ onCreateFormHandler, history, createSuccess, createFailledEr
           
 
           <button type='submit' className='btn btn-success me-2'>
-            Create
+            Save
           </button>
           <button type='button' className='btn btn-warning' onClick={backHandler}>
             Back

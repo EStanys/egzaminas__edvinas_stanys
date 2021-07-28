@@ -58,7 +58,7 @@ const getOneUser = async (req, res) => {
 // @access Public
 const editUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body);
+    const updatedUser = await User.findOneAndUpdate({_id:req.params.id}, req.body, {new: true, runValidators: true});
     res.json({ message: 'Update Success', updatedUser });
   } catch (error) {
     res.json(error);
