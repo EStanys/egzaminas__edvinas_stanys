@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = 'http://localhost:4000/api/users'
+const URL = `http://localhost:${process.env.PORT || 4000}/api/users`
 
 const createNewUser = async (newUserData) => {
   try {
