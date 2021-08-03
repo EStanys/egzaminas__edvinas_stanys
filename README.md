@@ -28,6 +28,7 @@ Custom Express with mongoDb. We use mongoose for queries.
 1. `npm run install-b` installs backend
 1. `npm run install-f` installs frontend
 1. rename .env.sample file to .env and add your mongoDB atlass connection string
+1. in /frontend/src/utils/requests.js file change const URL = `http://localhost:5000/api/users` port to backend port you use in the project.
 
 ## Dev scripts (local development)
 
